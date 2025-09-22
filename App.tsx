@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { SearchIcon, BellIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ShoppingCartIcon, BriefcaseIcon, ShieldCheckIcon, UsersIcon, SettingsIcon, LogoutIcon } from './components/Icons';
+import { SearchIcon, BellIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ShoppingCartIcon, BriefcaseIcon, ShieldCheckIcon, UsersIcon, SettingsIcon, LogoutIcon, DollarSignIcon, AtSymbolIcon } from './components/Icons';
 import { Sidebar } from './components/Sidebar';
 import { DashboardPage } from './pages/DashboardPage';
 import { UsersPage } from './pages/UsersPage';
@@ -11,23 +11,24 @@ import { P2PTradingPage } from './pages/P2PTradingPage';
 import { FinancePage } from './pages/FinancePage';
 import { StatisticsPage } from './pages/StatisticsPage';
 import { SettingsPage } from './pages/SettingsPage';
-import { AuditLogPage } from './pages/AuditLogPage';
 import { NotificationsPage } from './pages/NotificationsPage';
 import { MessengerPage } from './pages/MessengerPage';
 import { LoginPage } from './pages/LoginPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import type { Notification, AuthUser } from './types';
-import { LogsPage } from './pages/LogsPage';
 import { LogService } from './services/LogService';
 
 // --- Notifications Data & Helpers ---
 
 const mockNotifications: Notification[] = [
-    { id: '1', type: 'order', message: 'New order #ORD552 received from Alex Green.', timestamp: '5m ago', read: false },
-    { id: '2', type: 'project', message: 'Project "Mobile App Development" is at risk.', timestamp: '1h ago', read: false },
-    { id: '3', type: 'security', message: 'Unusual login detected from a new device.', timestamp: '3h ago', read: true },
-    { id: '4', type: 'user', message: 'Jane Doe has been added to the team.', timestamp: '8h ago', read: true },
-    { id: '5', type: 'order', message: 'Order #ORD551 has been shipped.', timestamp: '1d ago', read: true },
+    { id: '1', type: 'order', message: 'New order #ORD552 received from Alex Green.', timestamp: '5m ago', read: false, actionText: 'View Order', actionLink: '#' },
+    { id: '2', type: 'mention', message: 'Jane Doe mentioned you in the "Mobile App" project.', timestamp: '25m ago', read: false, actionText: 'View Comment', actionLink: '#' },
+    { id: '3', type: 'project', message: 'Project "Mobile App Development" is at risk.', timestamp: '1h ago', read: false, actionText: 'View Project', actionLink: '#' },
+    { id: '4', type: 'finance', message: 'Your monthly budget for "Groceries" is nearing its limit (92%).', timestamp: '2h ago', read: false, actionText: 'Review Budget', actionLink: '#' },
+    { id: '5', type: 'security', message: 'Unusual login detected from a new device.', timestamp: '3h ago', read: true },
+    { id: '6', type: 'user', message: 'John Smith has been added to the team.', timestamp: '8h ago', read: true },
+    { id: '7', type: 'system', message: 'System maintenance is scheduled for tonight at 2 AM.', timestamp: '1d ago', read: true },
+    { id: '8', type: 'order', message: 'Order #ORD551 has been shipped.', timestamp: '1d ago', read: true },
 ];
 
 export const getNotificationIcon = (type: Notification['type']) => {
@@ -40,6 +41,12 @@ export const getNotificationIcon = (type: Notification['type']) => {
             return <ShieldCheckIcon className="w-5 h-5 text-red-500" />;
         case 'user':
             return <UsersIcon className="w-5 h-5 text-blue-400" />;
+        case 'finance':
+            return <DollarSignIcon className="w-5 h-5 text-green-400" />;
+        case 'mention':
+            return <AtSymbolIcon className="w-5 h-5 text-indigo-400" />;
+        case 'system':
+            return <SettingsIcon className="w-5 h-5 text-light-gray" />;
         default:
             return <BellIcon className="w-5 h-5 text-light-gray" />;
     }
@@ -76,7 +83,8 @@ const NotificationsPanel: React.FC<{
     onMarkAsRead: (id: string) => void;
     onMarkAllAsRead: () => void;
     onNavigateToAll: () => void;
-}> = ({ notifications, onMarkAsRead, onMarkAllAsRead, onNavigateToAll }) => {
+    onNavigateToSettings: () => void;
+}> = ({ notifications, onMarkAsRead, onMarkAllAsRead, onNavigateToAll, onNavigateToSettings }) => {
     return (
         <div className="bg-dark-card rounded-2xl shadow-lg border border-dark-border overflow-hidden flex flex-col">
             <div className="p-4 flex justify-between items-center border-b border-dark-border">
@@ -105,10 +113,17 @@ const NotificationsPanel: React.FC<{
                     <p className="p-4 text-center text-sm text-light-gray">No new notifications.</p>
                 )}
             </div>
-             <div className="p-2 border-t border-dark-border bg-dark-bg/50">
+             <div className="p-2 border-t border-dark-border bg-dark-bg/50 flex justify-between items-center">
+                <button
+                    onClick={onNavigateToSettings}
+                    title="Notification Settings"
+                    className="p-2 rounded-lg hover:bg-dark-border transition-colors"
+                >
+                    <SettingsIcon className="w-5 h-5 text-light-gray"/>
+                </button>
                 <button
                     onClick={onNavigateToAll}
-                    className="w-full text-center text-sm py-2 text-accent-cyan hover:underline rounded-lg"
+                    className="text-center text-sm py-2 px-4 text-accent-cyan hover:underline rounded-lg"
                 >
                     See all notifications
                 </button>
@@ -249,6 +264,10 @@ const Header: React.FC<{
                                 onNavigateToAll();
                                 setNotificationsOpen(false);
                             }}
+                            onNavigateToSettings={() => {
+                                onNavigateToSettings();
+                                setNotificationsOpen(false);
+                            }}
                         />
                     </div>
                 </div>
@@ -319,14 +338,8 @@ const AppContent: React.FC = () => {
         case 'finance':
             pageComponent = <FinancePage />;
             break;
-        case 'audit':
-            pageComponent = <AuditLogPage />;
-            break;
         case 'stats':
             pageComponent = <StatisticsPage />;
-            break;
-        case 'logs':
-            pageComponent = <LogsPage />;
             break;
         case 'settings':
             pageComponent = <SettingsPage />;

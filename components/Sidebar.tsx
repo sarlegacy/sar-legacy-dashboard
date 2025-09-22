@@ -30,9 +30,7 @@ const navItems = [
   { id: 'ecommerce', icon: <ShoppingCartIcon />, label: 'E-commerce' },
   { id: 'trading', icon: <ArrowPathIcon />, label: 'P2P Trading' },
   { id: 'finance', icon: <CreditCardIcon />, label: 'Finance' },
-  { id: 'audit', icon: <ClockIcon />, label: 'Audit Log' },
   { id: 'stats', icon: <ChartBarIcon />, label: 'Statistics' },
-  { id: 'logs', icon: <DocumentTextIcon />, label: 'Logs' },
 ];
 
 interface SidebarProps {

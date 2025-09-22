@@ -1,4 +1,3 @@
-
 // Fix: Import React to use React.ReactNode type.
 import type React from 'react';
 
@@ -190,10 +189,22 @@ export interface BillingHistoryItem {
 
 export interface Notification {
     id: string;
-    type: 'order' | 'project' | 'security' | 'user';
+    type: 'order' | 'project' | 'security' | 'user' | 'finance' | 'mention' | 'system';
     message: string;
     timestamp: string;
     read: boolean;
+    actionLink?: string;
+    actionText?: string;
+}
+
+export interface NotificationPreferences {
+    orders: boolean;
+    projects: boolean;
+    security: boolean;
+    users: boolean;
+    finance: boolean;
+    mentions: boolean;
+    system: boolean;
 }
 
 export interface AuditLogEntry {
@@ -262,4 +273,32 @@ export interface RecurringTransaction {
   frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
   startDate: string; // YYYY-MM-DD
   endDate?: string; // YYYY-MM-DD
+}
+
+export interface Budget {
+    category: string;
+    limit: number;
+}
+
+export interface InvestmentAsset {
+    id: string;
+    name: string;
+    symbol: string;
+    icon: React.ReactNode;
+    valueUSD: number;
+    change: number;
+}
+
+export interface FinancialInsight {
+    id: string;
+    type: 'alert' | 'info' | 'success';
+    message: string;
+}
+
+export interface DataExportRequest {
+    id: string;
+    requestDate: string;
+    status: 'Pending' | 'Completed' | 'Failed';
+    dataType: string;
+    downloadUrl?: string;
 }

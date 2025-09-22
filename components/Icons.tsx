@@ -119,6 +119,12 @@ export const PlayIcon = (props: SVGProps) => (
     </svg>
 );
 
+export const PauseIcon = (props: SVGProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" {...props}>
+        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h.01a1 1 0 001-1V8a1 1 0 00-1-1H8zm4 0a1 1 0 00-1 1v4a1 1 0 001 1h.01a1 1 0 001-1V8a1 1 0 00-1-1h-.01z" clipRule="evenodd" />
+    </svg>
+);
+
 export const ArrowRightIcon = (props: SVGProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -382,6 +388,66 @@ export const TagIcon = (props: SVGProps) => (
     <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
   </svg>
+);
+
+export const AtSymbolIcon = (props: SVGProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206" />
+    </svg>
+);
+
+export const LightBulbIcon = (props: SVGProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+    </svg>
+);
+
+export const ExclamationTriangleIcon = (props: SVGProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+);
+
+export const CheckBadgeIcon = (props: SVGProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+    </svg>
+);
+
+export const ArchiveBoxIcon = (props: SVGProps) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.75 7.5h16.5v-1.5a1.5 1.5 0 00-1.5-1.5h-13.5a1.5 1.5 0 00-1.5 1.5v1.5z" />
+    </svg>
+);
+
+// App-specific icons for AppUsage widget
+export const FigmaIcon = (props: SVGProps) => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <path d="M12 7.5a4.5 4.5 0 11-4.5 4.5H12V7.5z" fill="#0ACF83"/>
+        <path d="M7.5 12a4.5 4.5 0 014.5-4.5V12H7.5z" fill="#A259FF"/>
+        <path d="M7.5 12a4.5 4.5 0 004.5 4.5V12H7.5z" fill="#F24E1E"/>
+        <path d="M12 16.5a4.5 4.5 0 114.5-4.5H12v4.5z" fill="#FF7262"/>
+        <path d="M16.5 12A4.5 4.5 0 0112 7.5V12h4.5z" fill="#1ABCFE"/>
+    </svg>
+);
+
+export const VSCodeIcon = (props: SVGProps) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <path fill="#007ACC" d="M23.15 16.57l-6.23 6.23L.85 11.73l6.23-6.23 4.14 4.14L9 11.86l5.33 5.33 2.38-2.38 4.14 4.14zM21.6 6.13L10.27 1.2l-5.9 5.9L9.7 11.27l11.9-5.14zM20.14 4.6l-2.38 2.38-4.14-4.14 2.38-2.38 4.14 4.14z" />
+    </svg>
+);
+
+export const SlackIcon = (props: SVGProps) => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <path d="M5.04 15.12c0 1.02.84 1.86 1.86 1.86h2.52v-2.52c0-1.02-.84-1.86-1.86-1.86H5.04v2.52z" fill="#36C5F0"/>
+        <path d="M8.88 15.12c1.02 0 1.86-.84 1.86-1.86V5.04c0-1.02-.84-1.86-1.86-1.86H6.36v2.52c0 1.02.84 1.86 1.86 1.86h.66v7.56z" fill="#2EB67D"/>
+        <path d="M8.88 8.88c0-1.02-.84-1.86-1.86-1.86H2.28v2.52c0 1.02.84 1.86 1.86 1.86h4.74V8.88z" fill="#ECB22E"/>
+        <path d="M8.88 18.96c-1.02 0-1.86.84-1.86 1.86v4.74h2.52c1.02 0 1.86-.84 1.86-1.86v-2.28h-2.52z" fill="#E01E5A"/>
+        <path d="M15.12 8.88c0-1.02-.84-1.86-1.86-1.86h-7.56v.66c0 1.02.84 1.86 1.86 1.86h7.56V8.88z" fill="#ECB22E"/>
+        <path d="M18.96 8.88c1.02 0 1.86.84 1.86 1.86v4.74h-2.52c-1.02 0-1.86-.84-1.86-1.86v-2.28h2.52z" fill="#E01E5A"/>
+        <path d="M15.12 15.12c0 1.02.84 1.86 1.86 1.86h4.74v-2.52c0-1.02-.84-1.86-1.86-1.86h-4.74v2.52z" fill="#36C5F0"/>
+        <path d="M15.12 5.04c1.02 0 1.86-.84 1.86-1.86V.66h-2.52c-1.02 0-1.86.84-1.86 1.86v.66h2.52z" fill="#2EB67D"/>
+    </svg>
 );
 
 // --- Social Icons ---

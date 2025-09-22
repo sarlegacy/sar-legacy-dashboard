@@ -1,9 +1,10 @@
-import React from 'react';
-import type { CalendarTask, KeyMetric, RecentOrder, PortfolioAsset, ActiveTrade, TeamMemberPerformance } from '../types';
+import React, { useState } from 'react';
+import type { CalendarTask, KeyMetric, TeamMemberPerformance, TimeTrackingTask, AppUsage, UpcomingDeadline } from '../types';
 import { 
-    PhoneIcon, EnvelopeIcon, ThreeDotsIcon,
+    PhoneIcon, EnvelopeIcon,
     DollarSignIcon, ChartBarIcon, UsersIcon, BriefcaseIcon, TrendingUpIcon, 
-    TrendingDownIcon, BitcoinIcon, EthereumIcon, ArrowUpRightIcon, ArrowDownLeftIcon
+    TrendingDownIcon, PlayIcon, PauseIcon, PencilIcon, CheckCircleIcon,
+    GlobeAltIcon, VSCodeIcon, FigmaIcon, SlackIcon
 } from '../components/Icons';
 
 // --- HELPER COMPONENTS ---
@@ -49,6 +50,76 @@ const UserProfileCard: React.FC = () => (
     </Card>
 );
 
+const timeTrackingData: TimeTrackingTask[] = [
+    { name: 'Feature: User Authentication', time: '02:30:45', icon: <BriefcaseIcon />, isActive: true },
+    { name: 'Bugfix: #582 - UI Glitch', time: '01:15:20', icon: <PencilIcon className="w-5 h-5" /> },
+    { name: 'Code Review: PR #122', time: '00:45:10', icon: <CheckCircleIcon /> },
+    { name: 'Team Meeting', time: '01:00:00', icon: <UsersIcon /> },
+];
+
+const TimeTracking: React.FC = () => {
+    const [tasks, setTasks] = useState(timeTrackingData);
+
+    const handleToggle = (taskName: string) => {
+        setTasks(currentTasks => 
+            currentTasks.map(task => 
+                task.name === taskName 
+                ? { ...task, isActive: !task.isActive } // Toggle clicked task
+                : { ...task, isActive: false } // Deactivate others
+            )
+        );
+    };
+
+    return (
+        <Card className="p-6">
+            <h3 className="font-bold text-lg mb-4">Time Tracking</h3>
+            <div className="space-y-3">
+                {tasks.map(task => (
+                    <div key={task.name} className={`flex items-center space-x-3 p-3 rounded-xl transition-all ${task.isActive ? 'bg-dark-bg shadow-lg ring-1 ring-accent-cyan' : ''}`}>
+                        <div className={`p-2 rounded-lg ${task.isActive ? 'text-accent-cyan' : 'text-light-gray'}`}>{task.icon}</div>
+                        <div className="flex-grow">
+                            <p className="font-semibold">{task.name}</p>
+                            <p className="text-sm text-light-gray">{task.time}</p>
+                        </div>
+                        <button onClick={() => handleToggle(task.name)} className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${task.isActive ? 'bg-accent-cyan text-black' : 'bg-dark-bg text-white hover:bg-mid-gray'}`}>
+                            {task.isActive ? <PauseIcon className="w-5 h-5" /> : <PlayIcon className="w-5 h-5" />}
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </Card>
+    );
+};
+
+const appUsageData: AppUsage[] = [
+    { name: 'VS Code', icon: <VSCodeIcon className="w-8 h-8" />, time: '5h 30m', percentage: 55 },
+    { name: 'Figma', icon: <FigmaIcon className="w-8 h-8" />, time: '2h 15m', percentage: 22 },
+    { name: 'Slack', icon: <SlackIcon className="w-8 h-8" />, time: '1h 45m', percentage: 18 },
+    { name: 'Browser', icon: <GlobeAltIcon className="w-8 h-8 text-gray-400" />, time: '0h 30m', percentage: 5 },
+];
+
+const AppUsage: React.FC = () => (
+    <Card className="p-6">
+        <h3 className="font-bold text-lg mb-4">App Usage (Today)</h3>
+        <div className="space-y-4">
+            {appUsageData.map(app => (
+                <div key={app.name} className="flex items-center space-x-4">
+                    {app.icon}
+                    <div className="flex-grow">
+                        <div className="flex justify-between text-sm">
+                            <span className="font-semibold">{app.name}</span>
+                            <span className="text-light-gray">{app.time}</span>
+                        </div>
+                        <div className="w-full bg-dark-bg rounded-full h-1.5 mt-1">
+                            <div className="bg-accent-purple h-1.5 rounded-full" style={{ width: `${app.percentage}%` }}></div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </Card>
+);
+
 const keyMetricsData: (KeyMetric & { trend: number[] })[] = [
     { id: 'revenue', label: 'Revenue', value: '৳405k', change: 12.3, icon: <DollarSignIcon className="w-6 h-6"/>, trend: [280, 310, 350, 320, 380, 390, 405] },
     { id: 'profit', label: 'Profit Margin', value: '25.4%', change: 5.1, icon: <ChartBarIcon className="w-6 h-6"/>, trend: [22.1, 23.5, 23.0, 24.1, 24.8, 25.1, 25.4] },
@@ -80,113 +151,42 @@ const KeyMetrics: React.FC = () => (
     </Card>
 );
 
-const recentOrdersData: RecentOrder[] = [
-    { id: 'ORD001', customerName: 'John Doe', avatarUrl: 'https://picsum.photos/seed/jd/32/32', date: '2 min ago', amount: 149.99, status: 'Completed' },
-    { id: 'ORD002', customerName: 'Jane Smith', avatarUrl: 'https://picsum.photos/seed/js/32/32', date: '15 min ago', amount: 49.50, status: 'Pending' },
-    { id: 'ORD003', customerName: 'Mike Johnson', avatarUrl: 'https://picsum.photos/seed/mj/32/32', date: '1 hour ago', amount: 305.00, status: 'Completed' },
-    { id: 'ORD004', customerName: 'Emily Davis', avatarUrl: 'https://picsum.photos/seed/ed/32/32', date: '3 hours ago', amount: 75.20, status: 'Cancelled' },
+const upcomingDeadlinesData: UpcomingDeadline[] = [
+    { id: 1, title: 'Deploy Staging - E-commerce', dueDate: '2024-09-28', daysLeft: 2 },
+    { id: 2, title: 'Finalize Mobile UI Kit', dueDate: '2024-10-01', daysLeft: 5 },
+    { id: 3, title: 'Client Demo - Analytics', dueDate: '2024-10-05', daysLeft: 9 },
 ];
 
-const RecentOrders: React.FC = () => {
-    const getStatusColor = (status: RecentOrder['status']) => {
-        switch (status) {
-            case 'Completed': return 'bg-green-500';
-            case 'Pending': return 'bg-yellow-500';
-            case 'Cancelled': return 'bg-red-500';
-        }
+const UpcomingDeadlines: React.FC = () => {
+    const getUrgencyClasses = (daysLeft: number) => {
+        if (daysLeft <= 3) return { bg: 'bg-red-500', text: 'text-red-400' };
+        if (daysLeft <= 7) return { bg: 'bg-yellow-500', text: 'text-yellow-400' };
+        return { bg: 'bg-mid-gray', text: 'text-light-gray' };
     };
 
     return (
         <Card className="p-6">
-            <div className="flex justify-between items-center">
-                <h3 className="font-bold text-lg">Recent Orders</h3>
-                <button><ThreeDotsIcon className="text-light-gray" /></button>
-            </div>
-            <div className="space-y-4 mt-4">
-                {recentOrdersData.map(order => (
-                    <div key={order.id} className="flex items-center space-x-4 p-2 rounded-lg -m-2 hover:bg-dark-bg/50 transition-colors">
-                        <img src={order.avatarUrl} alt={order.customerName} className="w-10 h-10 rounded-full" />
-                        <div className="flex-grow">
-                            <p className="font-semibold">{order.customerName} <span className="text-light-gray font-normal">({order.id})</span></p>
-                            <p className="text-sm text-light-gray">{order.date}</p>
-                        </div>
-                        <div className="text-right">
-                            <p className="font-bold">৳{order.amount.toFixed(2)}</p>
-                            <div className="flex items-center justify-end space-x-2">
-                                <span className={`w-2 h-2 rounded-full ${getStatusColor(order.status)}`}></span>
-                                <p className="text-xs text-light-gray">{order.status}</p>
+            <h3 className="font-bold text-lg mb-4">Upcoming Deadlines</h3>
+            <div className="space-y-3">
+                {upcomingDeadlinesData.map(deadline => {
+                    const urgency = getUrgencyClasses(deadline.daysLeft);
+                    return (
+                        <div key={deadline.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-dark-bg/50 transition-colors">
+                            <span className={`w-2 h-2 rounded-full ${urgency.bg}`}></span>
+                            <div className="flex-grow">
+                                <p className="font-semibold">{deadline.title}</p>
+                            </div>
+                            <div className="text-right">
+                                 <p className="text-sm text-light-gray">{deadline.dueDate}</p>
+                                 <p className={`text-xs font-bold ${urgency.text}`}>{deadline.daysLeft} days left</p>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </Card>
     );
 };
-
-const p2pPortfolioData: PortfolioAsset[] = [
-    { id: 'btc', name: 'Bitcoin', symbol: 'BTC', icon: <BitcoinIcon className="w-8 h-8 text-yellow-500" />, amount: 1.25, valueUSD: 85031.25, change: 2.5 },
-    { id: 'eth', name: 'Ethereum', symbol: 'ETH', icon: <EthereumIcon className="w-8 h-8 text-gray-400" />, amount: 15.8, valueUSD: 55456.40, change: -1.2 },
-];
-
-const P2PPortfolio: React.FC = () => (
-    <Card className="p-6">
-        <div className="flex justify-between items-center">
-            <h3 className="font-bold text-lg">P2P Portfolio</h3>
-            <span className="text-sm font-semibold bg-dark-bg px-3 py-1 rounded-full">৳140,487.65</span>
-        </div>
-        <div className="space-y-4 mt-4">
-            {p2pPortfolioData.map(asset => (
-                <div key={asset.id} className="flex items-center space-x-4">
-                    {asset.icon}
-                    <div className="flex-grow">
-                        <p className="font-bold">{asset.name}</p>
-                        <p className="text-sm text-light-gray">{asset.amount} {asset.symbol}</p>
-                    </div>
-                    <div className="text-right">
-                        <p className="font-semibold">৳{asset.valueUSD.toLocaleString()}</p>
-                        <div className={`flex items-center justify-end text-xs ${asset.change > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                           {asset.change > 0 ? <TrendingUpIcon className="w-3 h-3 mr-1"/> : <TrendingDownIcon className="w-3 h-3 mr-1"/>}
-                           {Math.abs(asset.change)}%
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    </Card>
-);
-
-const activeTradesData: ActiveTrade[] = [
-    { id: 'T01', type: 'Buy', assetSymbol: 'BTC', assetIcon: <BitcoinIcon className="w-6 h-6 text-yellow-500" />, amount: 0.1, price: 68000, user: 'CryptoKing' },
-    { id: 'T02', type: 'Sell', assetSymbol: 'ETH', assetIcon: <EthereumIcon className="w-6 h-6 text-gray-400" />, amount: 2.5, price: 3500, user: 'EtherTrader' },
-    { id: 'T03', type: 'Buy', assetSymbol: 'BTC', assetIcon: <BitcoinIcon className="w-6 h-6 text-yellow-500" />, amount: 0.05, price: 68150, user: 'NewUser123' },
-];
-
-const ActiveTrades: React.FC = () => (
-    <Card className="p-6">
-        <div className="flex justify-between items-center">
-            <h3 className="font-bold text-lg">Active P2P Trades</h3>
-            <button><ThreeDotsIcon className="text-light-gray" /></button>
-        </div>
-        <div className="space-y-3 mt-4">
-            {activeTradesData.map(trade => (
-                <div key={trade.id} className="flex items-center space-x-3 bg-dark-bg p-3 rounded-xl">
-                     <div className={`p-2 rounded-full ${trade.type === 'Buy' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                        {trade.type === 'Buy' ? <ArrowDownLeftIcon className="w-5 h-5" /> : <ArrowUpRightIcon className="w-5 h-5" />}
-                    </div>
-                    {trade.assetIcon}
-                    <div className="flex-grow">
-                        <p className="font-semibold">{trade.type} {trade.amount} {trade.assetSymbol}</p>
-                        <p className="text-sm text-light-gray">@ ৳{trade.price.toLocaleString()} with {trade.user}</p>
-                    </div>
-                    <button className="text-sm bg-accent-cyan text-black font-semibold px-4 py-2 rounded-lg hover:bg-accent-cyan-light transition-colors">
-                        View
-                    </button>
-                </div>
-            ))}
-        </div>
-    </Card>
-);
 
 const teamPerformanceData: TeamMemberPerformance[] = [
     { id: 1, name: 'John Smith', avatarUrl: 'https://picsum.photos/seed/user3/32/32', role: 'Developer', performance: 92 },
@@ -217,7 +217,6 @@ const TeamPerformance: React.FC = () => (
         </div>
     </Card>
 );
-
 
 const TasksOverview: React.FC = () => {
      const tasks: CalendarTask[] = [
@@ -280,15 +279,15 @@ export const DashboardPage: React.FC = () => {
             {/* Left Column */}
             <div className="col-span-12 lg:col-span-3 flex flex-col gap-6">
                 <UserProfileCard />
-                <P2PPortfolio />
+                <TimeTracking />
+                <AppUsage />
             </div>
 
             {/* Right Column */}
             <div className="col-span-12 lg:col-span-9 grid grid-cols-1 lg:grid-cols-2 gap-6 auto-rows-max">
                 <KeyMetrics />
-                <div className="lg:col-span-1"><RecentOrders /></div>
-                <div className="lg:col-span-1"><ActiveTrades /></div>
-                <div className="lg:col-span-2"><TeamPerformance /></div>
+                <div className="lg:col-span-1"><UpcomingDeadlines /></div>
+                <div className="lg:col-span-1"><TeamPerformance /></div>
                 <div className="lg:col-span-2"><TasksOverview /></div>
             </div>
         </div>
