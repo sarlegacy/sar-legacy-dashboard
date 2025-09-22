@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --shadow-glow-cyan: 0 0 15px rgba(113, 230, 233, 0.15);
+            --shadow-glow-purple: 0 0 15px rgba(192, 132, 252, 0.15);
+        }
+        /* Custom scrollbar for a better dark mode aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #191919;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #363636;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4B5563;
+        }
+        /* Page transition animation */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        .page-container {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              'dark-bg': '#191919',
+              'dark-card': '#232323',
+              'dark-border': '#363636',
+              'accent-cyan': '#71E6E9',
+              'accent-cyan-light': '#A1F0F2',
+              'accent-purple': '#c084fc',
+              'light-gray': '#9CA3AF',
+              'mid-gray': '#4B5563',
+            },
+            borderRadius: {
+              '2xl': '1rem',
+              '3xl': '1.5rem',
+              '4xl': '2rem',
+            },
+            boxShadow: {
+              'glow-cyan': 'var(--shadow-glow-cyan)',
+              'glow-purple': 'var(--shadow-glow-purple)',
+            }
+          }
+        }
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/"
+  }
+}
+</script>
+</head>
+<body class="bg-dark-bg text-gray-200">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
